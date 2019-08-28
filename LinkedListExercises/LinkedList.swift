@@ -30,7 +30,18 @@ public class LinkedList<T: Equatable> {
         }
     }
 
-    var count: Int {return 0}
+    var count: Int {
+        var counter = 0
+        var currentNode = head
+        if head == nil {
+            return 0
+        }
+        while currentNode != nil {
+            currentNode = currentNode?.next
+            counter += 1
+        }
+        return counter
+    }
     
     func append(element newKey: T) {
         var currentNode = head
