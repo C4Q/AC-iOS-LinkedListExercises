@@ -80,18 +80,78 @@ public class LinkedList<T: Equatable> {
         return false
     }
     
-    func equals<T>(otherList: LinkedList<T>) -> Bool {return true}
+    func equals(otherList: LinkedList<T>) -> Bool {
+        var currentNodeSelf = head
+        var currentNodeOther = otherList.head
+        if count == 0, otherList.count == 0 {
+            return true
+        }
+        while currentNodeSelf != nil {
+            if currentNodeSelf == currentNodeOther {
+                currentNodeSelf = currentNodeSelf?.next
+                currentNodeOther = currentNodeOther?.next
+            } else {
+                return false
+            }
+        }
+        return true
+    }
     
-    func toArr<T>() -> [T] {return Array<T>()}
+    func toArr() -> [T] {
+        if count == 0 {
+            return Array<T>()
+        }
+        var currentNode = head
+        var arr = Array<T>()
+        while currentNode != nil {
+            guard let value = currentNode?.key else {return Array<T>()}
+            arr.append(value)
+            currentNode = currentNode?.next
+        }
+        return arr
+    }
     
-    func reversed<T>() -> LinkedList<T> {return LinkedList<T>()}
+    func reversed() -> LinkedList<T> {
+        if count == 0 {return LinkedList<T>()}
+        if count == 1 {return self}
+        let newLink = LinkedList<T>()
+        var currentIndex = count - 1
+        while currentIndex > 0 {
+            guard let value = getNode(at: currentIndex)?.key else {return LinkedList<T>()}
+            newLink.append(element: value)
+            currentIndex -= 1
+        }
+        return newLink
+        
+    }
     
-    func removeAll() {}
+    func removeAll() {
+        head = nil
+    }
+    
+    func insert(nodeWithKey: T, at index: Int) {
+        let newNode = Node(key: nodeWithKey)
+        guard let nodeBefore = getNode(at: index - 1) else {
+            if index == 0 {
+                newNode.next = head
+                head = newNode
+            } else {
+                append(element: nodeWithKey)
+            }
+            return
+        }
+        newNode.next = nodeBefore.next
+        nodeBefore.next = newNode
+    }
     
     //Challenge Questions
     func removeDuplicatesFromSortedList() {}
     
-    static func mergeSortedLists<T>(listOne: LinkedList<T>, listTwo: LinkedList<T>) -> LinkedList<T> {
+    static func mergeSortedLists(listOne: LinkedList<T>, listTwo: LinkedList<T>) -> LinkedList<T> {
+        var arrOne = listOne.toArr()
+        var arrTwo = listTwo.toArr()
+        var bothArr = arrOne + arrTwo
+        bothArr.sort(by: {$0 > $1})
         return LinkedList<T>()
     }
     
