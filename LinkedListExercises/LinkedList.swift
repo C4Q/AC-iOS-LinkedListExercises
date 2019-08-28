@@ -146,7 +146,26 @@ public class LinkedList<T: Comparable> {
     }
     
     //Challenge Questions
-    func removeDuplicatesFromSortedList() {}
+    func removeDuplicatesFromSortedList() {
+        var arr = toArr()
+        arr.sort(by: {$0 < $1})
+        let newList = LinkedList<T>()
+        for a in arr {
+            if !newList.contains(element: a) {
+                newList.append(element: a)
+            } else {
+                continue
+            }
+        }
+        newList.printAllKeys()
+        removeAll()
+        var currentNode = newList.head
+        while currentNode != nil {
+            guard let value = currentNode?.key else {return}
+            append(element: value)
+            currentNode = currentNode?.next
+        }
+    }
     
     static func mergeSortedLists(listOne: LinkedList<T>, listTwo: LinkedList<T>) -> LinkedList<T> {
         let newList = LinkedList<T>()
