@@ -55,7 +55,17 @@ public class LinkedList<T: Equatable> {
         currentNode?.next = Node(key: newKey)
     }
     
-    func getNode<T>(at index: Int) -> Node<T>? {return nil}
+    func getNode(at index: Int) -> Node<T>? {
+        guard index >= 0 else {return nil}
+        guard index <= count - 1 else {return nil}
+        var counter = 0
+        var currentNode = head
+        while counter < index {
+            currentNode = currentNode?.next
+            counter += 1
+        }
+        return currentNode
+    }
     
     func contains<T>(element targetKey: T) -> Bool {return false}
     
