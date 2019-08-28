@@ -20,7 +20,7 @@ public class Node<T: Equatable>: Equatable {
     }
 }
 
-public class LinkedList<T: Equatable> {
+public class LinkedList<T: Comparable> {
     
     var head: Node<T>?
     func printAllKeys() {
@@ -115,12 +115,13 @@ public class LinkedList<T: Equatable> {
         if count == 0 {return LinkedList<T>()}
         if count == 1 {return self}
         let newLink = LinkedList<T>()
-        var currentIndex = count - 1
+        var currentIndex = count
         while currentIndex > 0 {
             guard let value = getNode(at: currentIndex)?.key else {return LinkedList<T>()}
             newLink.append(element: value)
             currentIndex -= 1
         }
+        newLink.printAllKeys()
         return newLink
         
     }
@@ -148,11 +149,15 @@ public class LinkedList<T: Equatable> {
     func removeDuplicatesFromSortedList() {}
     
     static func mergeSortedLists(listOne: LinkedList<T>, listTwo: LinkedList<T>) -> LinkedList<T> {
-        var arrOne = listOne.toArr()
-        var arrTwo = listTwo.toArr()
+        let newList = LinkedList<T>()
+        let arrOne = listOne.toArr()
+        let arrTwo = listTwo.toArr()
         var bothArr = arrOne + arrTwo
-        bothArr.sort(by: {$0 > $1})
-        return LinkedList<T>()
+        bothArr.sort(by: {$0 < $1})
+        for a in bothArr {
+            newList.append(element: a)
+        }
+        return newList
     }
     
     
