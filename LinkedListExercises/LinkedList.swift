@@ -21,6 +21,7 @@ public class Node<T: Equatable>: Equatable {
 }
 
 public class LinkedList<T: Equatable> {
+    
     var head: Node<T>?
     func printAllKeys() {
         var currentNode = head
@@ -67,7 +68,17 @@ public class LinkedList<T: Equatable> {
         return currentNode
     }
     
-    func contains<T>(element targetKey: T) -> Bool {return false}
+    func contains(element targetKey: T) -> Bool {
+        var currentNode = head
+        while currentNode != nil {
+            if currentNode?.key == targetKey {
+                return true
+            } else {
+                currentNode = currentNode?.next
+            }
+        }
+        return false
+    }
     
     func equals<T>(otherList: LinkedList<T>) -> Bool {return true}
     
