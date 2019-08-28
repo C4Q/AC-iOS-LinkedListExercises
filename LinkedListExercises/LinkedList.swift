@@ -8,7 +8,11 @@
 
 import Foundation
 
-public class Node<T> {
+public class Node<T: Equatable>: Equatable {
+    public static func == (lhs: Node<T>, rhs: Node<T>) -> Bool {
+        return lhs.key == rhs.key
+    }
+    
     var key: T
     var next: Node<T>?
     init(key: T) {
