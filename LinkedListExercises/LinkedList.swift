@@ -25,32 +25,27 @@ public class LinkedList<T: Equatable> {
             currentNode = currentNode?.next
         }
     }
-
+    
     var count: Int {return 0}
     
     func append(element newKey: T) {}
     
-    func getNode<T>(at index: Int) -> Node<T>? {return nil}
+    func getNode(at index: Int) -> Node<T>? {return nil}
     
-    func contains<T>(element targetKey: T) -> Bool {return false}
+    func contains(element targetKey: T) -> Bool {return false}
     
-    func equals<T>(otherList: LinkedList<T>) -> Bool {return true}
+    func equals(otherList: LinkedList<T>) -> Bool {return true}
     
-    func toArr<T>() -> [T] {return Array<T>()}
+    func toArr() -> [T] {return Array<T>()}
     
-    func reversed<T>() -> LinkedList<T> {return LinkedList<T>()}
+    func reversed() -> LinkedList<T> {return LinkedList<T>()}
     
     func removeAll() {}
     
     //Challenge Questions
     func removeDuplicatesFromSortedList() {}
     
-    static func mergeSortedLists<T>(listOne: LinkedList<T>, listTwo: LinkedList<T>) -> LinkedList<T> {
+    static func mergeSortedLists(listOne: LinkedList<T>, listTwo: LinkedList<T>) -> LinkedList<T> {
         return LinkedList<T>()
     }
-    
-    
-
-
 }
-
