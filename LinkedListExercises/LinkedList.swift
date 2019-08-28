@@ -10,7 +10,7 @@ import Foundation
 
 public class Node<T> {
     var key: T
-    var next: Node?
+    var next: Node<T>?
     init(key: T) {
         self.key = key
     }
@@ -28,7 +28,17 @@ public class LinkedList<T: Equatable> {
 
     var count: Int {return 0}
     
-    func append(element newKey: T) {}
+    func append(element newKey: T) {
+        var currentNode = head
+        if currentNode == nil {
+            head = Node(key: newKey)
+            return
+        }
+        while currentNode?.next != nil {
+            currentNode = currentNode?.next
+        }
+        currentNode?.next = Node(key: newKey)
+    }
     
     func getNode<T>(at index: Int) -> Node<T>? {return nil}
     
