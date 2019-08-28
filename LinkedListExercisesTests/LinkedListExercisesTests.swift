@@ -32,6 +32,12 @@ class LinkedListExercisesTests: XCTestCase {
 
     }
     
+    override func tearDown() {
+        myList = LinkedList<Int>()
+        myCopy = LinkedList<Int>()
+        emptyList = LinkedList<Int>()
+    }
+    
     
     func testCount() {
         // This is an example of a functional test case.
@@ -52,6 +58,9 @@ class LinkedListExercisesTests: XCTestCase {
 
         myList.append(element: 50)
         myCopy.append(element: 50)
+        
+        myList.printAllKeys()
+        appendedList.printAllKeys()
         
         XCTAssert(myList.benEquals(otherList: appendedList))
         
@@ -140,14 +149,13 @@ class LinkedListExercisesTests: XCTestCase {
         myList.insert(nodeWithKey: 50, at: 4)
         
         let backwardsList = LinkedList<Int>()
-        myList.head = Node(key: 50)
-        myList.insert(nodeWithKey: 40, at: 1)
-        myList.insert(nodeWithKey: 30, at: 2)
-        myList.insert(nodeWithKey: 20, at: 3)
-        myList.insert(nodeWithKey: 10, at: 4)
-
-        XCTAssertTrue(myList.reversed().benEquals(otherList: backwardsList))
+        backwardsList.head = Node(key: 50)
+        backwardsList.insert(nodeWithKey: 40, at: 1)
+        backwardsList.insert(nodeWithKey: 30, at: 2)
+        backwardsList.insert(nodeWithKey: 20, at: 3)
+        backwardsList.insert(nodeWithKey: 10, at: 4)
         
+        XCTAssertTrue(myList.reversed().benEquals(otherList: backwardsList))
     }
     
     func testRemoveAll() {
@@ -163,16 +171,20 @@ class LinkedListExercisesTests: XCTestCase {
         XCTAssertTrue(myList == emptyList)
         XCTAssertTrue(myList.benEquals(otherList: emptyList))
     }
-    
-    func testRemoveNode() {
-        
-    }
-    
 }
 
 
 //SPOILERS
 extension LinkedList {
+    var benCount: Int {
+        var count = 0
+        var currentNode = head
+        while currentNode != nil {
+            currentNode = currentNode?.next
+            count += 1
+        }
+        return count
+    }
     func insert(nodeWithKey k: T, at index: Int) {
         guard index != 0 else {
             let newHead = Node(key: k)
@@ -196,7 +208,7 @@ extension LinkedList {
         currentNode?.next = newNode
     }
     func benEquals(otherList: LinkedList ) -> Bool {
-        guard self.count == otherList.count else {
+        guard self.benCount == otherList.benCount else {
             return false
         }
         var selfCurrentNode: Node? = self.head
@@ -215,7 +227,7 @@ extension LinkedList {
 
 extension LinkedList: Equatable {
     public static func ==(lhs: LinkedList<T>, rhs: LinkedList<T>) -> Bool {
-        guard lhs.count == rhs.count else { return false }
+        guard lhs.benCount == rhs.benCount else { return false }
 
         var currentNodeLeft = lhs.head
         var currentNodeRight = rhs.head
