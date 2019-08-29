@@ -26,19 +26,80 @@ public class LinkedList<T: Equatable> {
         }
     }
 
-    var count: Int {return 0}
+    var count: Int {
+        var count = 0
+        var currentNode = head
+        while currentNode != nil {
+            currentNode = currentNode?.next
+            count += 1
+        }
+        return count
+    }
     
-    func append(element newKey: T) {}
     
-    func getNode(at index: Int) -> Node<T>? {return nil}
+    func append(element newKey: T) {
+        if head == nil {
+            head = Node(key: newKey)
+            return
+        }
+        var currentNode = head
+        while currentNode?.next != nil {
+            currentNode = currentNode?.next
+        }
+        currentNode?.next = Node(key: newKey)
+    }
     
-    func contains(element targetKey: T) -> Bool {return false}
+    func getNode(at index: Int) -> Node<T>? {
+        guard index > -1 else { return nil }
+        var counter = 0
+        var currentNode = head
+        while counter < index {
+            currentNode = currentNode?.next
+            counter += 1
+        }
+        return currentNode
+    }
     
-    func equals(otherList: LinkedList<T>) -> Bool {return true}
+    func contains(element targetKey: T) -> Bool {
+        var currentNode = head
+        while currentNode != nil {
+            if currentNode?.key == targetKey { return true }
+            currentNode = currentNode?.next
+        }
+        return false
+    }
     
-    func toArr() -> [T] {return Array<T>()}
+ 
+    func equals(otherList: LinkedList<T>) -> Bool {
+        var currentNode = head
+        var currentNodeTwo = otherList.head
+        while currentNode != nil && currentNodeTwo != nil && currentNode?.key == currentNodeTwo?.key {
+            currentNode = currentNode?.next
+            currentNodeTwo = currentNodeTwo?.next
+        }
+            
+        return currentNode == nil && currentNodeTwo == nil
+            
+    }
     
-    func reversed() -> LinkedList<T> {return LinkedList<T>()}
+    func toArr() -> [T] {
+        var array = [T]()
+        var currentNode = self.head
+        while currentNode != nil {
+            array.append(currentNode!.key)
+            currentNode = currentNode?.next
+        }
+        return array
+    }
+        
+        
+        
+    
+    
+    func reversed() -> LinkedList<T> {
+        let linkedList = LinkedList<T>()
+        return linkedList
+    }
     
     func removeAll() {}
     
