@@ -69,7 +69,18 @@ public class LinkedList<T: Equatable> {
         return false
     }
     
-    func equals(otherList: LinkedList<T>) -> Bool {return true}
+ 
+    func equals(otherList: LinkedList<T>) -> Bool {
+        var currentNode = head
+        var currentNodeTwo = otherList.head
+        while currentNode != nil && currentNodeTwo != nil && currentNode?.key == currentNodeTwo?.key {
+            currentNode = currentNode?.next
+            currentNodeTwo = currentNodeTwo?.next
+        }
+            
+        return currentNode == nil && currentNodeTwo == nil
+            
+    }
     
     func toArr() -> [T] {
         var array = [T]()
