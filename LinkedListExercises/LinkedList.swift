@@ -14,6 +14,8 @@ public class Node<T> {
     init(key: T) {
         self.key = key
     }
+    
+    
 }
 
 public class LinkedList<T: Equatable> {
@@ -70,11 +72,58 @@ public class LinkedList<T: Equatable> {
         return false
     }
     
-    func equals<T>(otherList: LinkedList<T>) -> Bool {return true}
+    func equals(otherList: LinkedList<T>) -> Bool {
+        var currentNode = head
+        var currentNodeTwo = otherList.head
+        
+        while currentNode != nil && currentNodeTwo != nil && currentNode?.key == currentNodeTwo?.key {
+            currentNode = currentNode?.next
+            currentNodeTwo = currentNodeTwo?.next
+        }
+        
+        return currentNode == nil && currentNodeTwo == nil
+       
+    }
     
-    func toArr<T>() -> [T] {return Array<T>()}
+    func insert(newValue: T, at index: Int) {
+        
+        let newNode = Node(key: newValue)
+        guard let nodeBefore = getNode(at: index - 1) else {
+            if index == 0 {
+                newNode.next = head
+                head = newNode
+            } else {
+                append(element: newValue)
+            }
+            return
+        }
+        
+        newNode.next = nodeBefore.next
+        nodeBefore.next = newNode
+    }
     
-    func reversed<T>() -> LinkedList<T> {return LinkedList<T>()}
+    func toArr() -> [T] {
+        var arr = Array<T>()
+        var currentNode = head
+        while currentNode != nil {
+            guard let key = currentNode?.key else {break}
+            arr.append(key)
+            currentNode = currentNode?.next
+        }
+        return arr
+        
+    }
+    
+    func reversed() -> LinkedList<T> {
+        var currentNode = head
+        let newLink = LinkedList<T>()
+        while currentNode != nil {
+            newLink.insert(newValue: currentNode!.key, at: 0)
+            currentNode = currentNode?.next
+        }
+        return newLink
+        
+    }
     
     func removeAll() {}
     

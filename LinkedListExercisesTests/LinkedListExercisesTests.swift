@@ -5,7 +5,6 @@
 //  Created by C4Q  on 10/24/17.
 //  Copyright © 2017 C4Q . All rights reserved.
 //
-
 import XCTest
 @testable import LinkedListExercises
 
@@ -23,13 +22,19 @@ class LinkedListExercisesTests: XCTestCase {
         myList.insert(nodeWithKey: 20, at: 1)
         myList.insert(nodeWithKey: 30, at: 2)
         myList.insert(nodeWithKey: 40, at: 3)
-
+        
         
         myCopy.head = Node(key: 10)
         myCopy.insert(nodeWithKey: 20, at: 1)
         myCopy.insert(nodeWithKey: 30, at: 2)
         myCopy.insert(nodeWithKey: 40, at: 3)
-
+        
+    }
+    
+    override func tearDown() {
+        myList = LinkedList<Int>()
+        myCopy = LinkedList<Int>()
+        emptyList = LinkedList<Int>()
     }
     
     
@@ -49,9 +54,12 @@ class LinkedListExercisesTests: XCTestCase {
         appendedList.insert(nodeWithKey: 30, at: 2)
         appendedList.insert(nodeWithKey: 40, at: 3)
         appendedList.insert(nodeWithKey: 50, at: 4)
-
+        
         myList.append(element: 50)
         myCopy.append(element: 50)
+        
+        myList.printAllKeys()
+        appendedList.printAllKeys()
         
         XCTAssert(myList.benEquals(otherList: appendedList))
         
@@ -94,7 +102,7 @@ class LinkedListExercisesTests: XCTestCase {
         mergedList.insert(nodeWithKey: 7, at: 6)
         mergedList.insert(nodeWithKey: 8, at: 7)
         mergedList.insert(nodeWithKey: 9, at: 8)
-
+        
         XCTAssertTrue(LinkedList<Int>.mergeSortedLists(listOne: listOne, listTwo: listTwo).benEquals(otherList: mergedList))
         XCTAssertTrue(LinkedList<Int>.mergeSortedLists(listOne: listOne, listTwo: listTwo) == mergedList)
     }
@@ -119,7 +127,7 @@ class LinkedListExercisesTests: XCTestCase {
         XCTAssertTrue(dupeList == noDupeList)
         
     }
-
+    
     func testToArr() {
         let myList = LinkedList<Int>()
         myList.head = Node(key: 10)
@@ -140,14 +148,13 @@ class LinkedListExercisesTests: XCTestCase {
         myList.insert(nodeWithKey: 50, at: 4)
         
         let backwardsList = LinkedList<Int>()
-        myList.head = Node(key: 50)
-        myList.insert(nodeWithKey: 40, at: 1)
-        myList.insert(nodeWithKey: 30, at: 2)
-        myList.insert(nodeWithKey: 20, at: 3)
-        myList.insert(nodeWithKey: 10, at: 4)
-
-        XCTAssertTrue(myList.reversed().benEquals(otherList: backwardsList))
+        backwardsList.head = Node(key: 50)
+        backwardsList.insert(nodeWithKey: 40, at: 1)
+        backwardsList.insert(nodeWithKey: 30, at: 2)
+        backwardsList.insert(nodeWithKey: 20, at: 3)
+        backwardsList.insert(nodeWithKey: 10, at: 4)
         
+        XCTAssertTrue(myList.reversed().benEquals(otherList: backwardsList))
     }
     
     func testRemoveAll() {
@@ -163,16 +170,20 @@ class LinkedListExercisesTests: XCTestCase {
         XCTAssertTrue(myList == emptyList)
         XCTAssertTrue(myList.benEquals(otherList: emptyList))
     }
-    
-    func testRemoveNode() {
-        
-    }
-    
 }
 
 
 //SPOILERS
 extension LinkedList {
+    var benCount: Int {
+        var count = 0
+        var currentNode = head
+        while currentNode != nil {
+            currentNode = currentNode?.next
+            count += 1
+        }
+        return count
+    }
     func insert(nodeWithKey k: T, at index: Int) {
         guard index != 0 else {
             let newHead = Node(key: k)
@@ -196,7 +207,7 @@ extension LinkedList {
         currentNode?.next = newNode
     }
     func benEquals(otherList: LinkedList ) -> Bool {
-        guard self.count == otherList.count else {
+        guard self.benCount == otherList.benCount else {
             return false
         }
         var selfCurrentNode: Node? = self.head
@@ -215,8 +226,8 @@ extension LinkedList {
 
 extension LinkedList: Equatable {
     public static func ==(lhs: LinkedList<T>, rhs: LinkedList<T>) -> Bool {
-        guard lhs.count == rhs.count else { return false }
-
+        guard lhs.benCount == rhs.benCount else { return false }
+        
         var currentNodeLeft = lhs.head
         var currentNodeRight = rhs.head
         while currentNodeLeft != nil {
@@ -224,7 +235,7 @@ extension LinkedList: Equatable {
             currentNodeLeft = currentNodeLeft?.next
             currentNodeRight = currentNodeRight?.next
         }
-
+        
         return true
     }
 }
